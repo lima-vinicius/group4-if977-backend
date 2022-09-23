@@ -1,0 +1,7 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "Register Cards API",
+        "description": "This API main goals its register Cards."
+    }
+}

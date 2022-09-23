@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UniversityUser {
+  id Int @id @default(autoincrement())
+  email String @unique @db.VarChar(255)
+  password String
+  name String @db.VarChar(100)
+  address String @db.VarChar(255)
+  city String @db.VarChar(100)
+  country String @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  studentUsers StudentUser[]
+
+}
+
+model StudentUser {
+  id Int @id @default(autoincrement())
+  universityId Int
+  email String @unique @db.VarChar(255)
+  password String
+  name String @db.VarChar(100)
+  address String @db.VarChar(255)
+  city String @db.VarChar(100)
+  country String @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  university UniversityUser @relation(fields: [universityId], references: [id])
+  knowledges Knowledge[]
+
+}
+
+model Knowledge {
+  id Int @id @default(autoincrement())
+  userId Int
+  name String @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  user StudentUser @relation(fields: [userId], references: [id])
+  subjects Subject[]
+
+}
+
+model Subject {
+  id Int @id @default(autoincrement())
+  knowledgeId Int
+  name String @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  knowledge Knowledge @relation(fields: [knowledgeId], references: [id])
+  cards Card[]
+
+}
+
+model Card {
+  id Int @id @default(autoincrement())
+  subjectId Int
+  title String @db.VarChar(100)
+  question String @db.VarChar(255)
+  answer String @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  subject Subject @relation(fields: [subjectId], references: [id])
+  
+}
