@@ -1,17 +1,20 @@
 import swaggerUi from "swagger-ui-express"
-var express = require('express');
+import routeUniversity from './routes/university';
 import SwaggerFile from "../swagger.json"
+import express from 'express'
+import bodyParser from 'body-parser'
 
-var universityRouter = require('./routes/university');
-var usersRouter = require('./routes/users');
 
-var app = express();
+require('dotenv').config();
+
+const app = express();
 
 // view engine setup
 app.use(express.json());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 
-app.use('/', universityRouter);
-app.use('/users', usersRouter);
+app.use('/', routeUniversity)
 
 app.use(
   "/docs",
