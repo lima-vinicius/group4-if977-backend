@@ -10,7 +10,7 @@ Olimpo is a knowledge management system, which aims to help Teaching and Student
 
 ## Links
 + [Notion](https://www.notion.so/Team-Home-f6436a085756411387b82bca9b436481)
-+ [Database Modeling - IN PROGRESS]
++ [Notion](https://reflective-begonia-822.notion.site/Design-mock-data-base-8547264dd9dc4c69bd411075a06d7e24)
 
 ## Technology
 
