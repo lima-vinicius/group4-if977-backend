@@ -8,19 +8,38 @@ require('dotenv').config();
 
 class UniversityService {
     static register = async (data: any) => {
-        const {email} = data;
-        data.password = bcrypt.hashSync(data.password, 8);
 
-        const university = prisma.universityUser.create({
-            data
-        }).finally(async () => await prisma.$disconnect())
+        try {
 
-        const accessToken = await jwt.default.signAccessToken(university)
+            const { email } = data;
 
-        return {
-            data,
-            accessToken
+            const find = await prisma.universityUser.findUnique({
+                where: {
+                    email: data.email
+                }
+            })
+
+            if (find == undefined) {
+                data.password = bcrypt.hashSync(data.password, 8);
+
+                const university = prisma.universityUser.create({
+                    data
+                }).finally(async () => await prisma.$disconnect())
+
+                const accessToken = await jwt.default.signAccessToken(university)
+
+                return { data, accessToken }
+
+            }
+
+            else if (find != undefined) {
+                return "University user yet exist, try again."
+            }
         }
+        catch (e) {
+            return e
+        }
+
     }
 }
 

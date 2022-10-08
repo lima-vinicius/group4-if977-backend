@@ -20,4 +20,4 @@ const auth = async (req: any, res: any, next: any) =>{
     })
 }
 
-module.exports = auth
+export default auth
