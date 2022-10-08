@@ -1,8 +1,7 @@
 import universityService from '../services/university';
-import error from 'http-errors';
 
 class UniversityController {
-    static register = async (req: any, res: any, next: any) => {
+    static register = async (req: any, res: any) => {
         try {
 
             const result = await universityService.register(req.body);
@@ -24,6 +23,30 @@ class UniversityController {
 
         }
         catch (e) {
+            return (e.statusCode, e.message)
+        }
+    }
+
+    static login = async (req:any, res:any ) => {
+        try {
+
+            const result = await universityService.login(req.body)
+
+            if(result.accessToken != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Login realizado com sucesso!",
+                    result
+                })
+            }
+            else{
+                res.status(result.status).json({
+                    message: result
+                })
+            }
+           
+        }
+        catch (e){
             return (e.statusCode, e.message)
         }
     }
