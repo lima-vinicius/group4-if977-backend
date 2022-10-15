@@ -40,7 +40,7 @@ class UniversityService {
         catch (e) {
             return e
         }
-    }
+    };
 
     static login = async (data: any) => {
 
@@ -66,7 +66,41 @@ class UniversityService {
         catch(e){
             return e
         }     
-    }
+    };
+
+    static listAll = async () => {
+        try{
+
+            const universitys = await prisma.universityUser.findMany();
+
+            if(!universitys) throw Object.assign(new Error('Universidades não encontradas'), { status: 404});
+
+            return universitys;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
+    static list = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const university = await prisma.universityUser.findUnique({
+                where:{
+                    id
+                }
+            });
+
+            if(!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+
+            return university;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
 
 }
 
