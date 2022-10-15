@@ -25,7 +25,7 @@ class UniversityController {
         catch (e) {
             return (e.statusCode, e.message)
         }
-    }
+    };
 
     static login = async (req:any, res:any ) => {
         try {
@@ -49,7 +49,53 @@ class UniversityController {
         catch (e){
             return (e.statusCode, e.message)
         }
-    }
+    };
+
+    static listAll = async (req: any, res:any) => {
+        try{
+
+            const result = await universityService.listAll();
+
+            if(result != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Universidade encontradas com sucesso!",
+                    result: result,
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: "Universidades não encontradas"
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
+
+    static list = async (req: any, res: any) => {
+        try {
+
+            const result = await universityService.list(req.body);
+
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Universidade encontrada com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
 }
 
 export default UniversityController;
