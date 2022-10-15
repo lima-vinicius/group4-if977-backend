@@ -1,9 +1,8 @@
 import express from 'express';
 const router = express.Router();
+import student from '../controllers/user';
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.post('/register', student.register);
+router.post('/login', student.login)
 
 export default router;
