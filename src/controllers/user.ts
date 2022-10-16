@@ -49,7 +49,53 @@ class StudentController {
         catch (e){
             return (e.statusCode, e.message)
         }
-    }
+    };
+
+    static listAll = async (req: any, res:any) => {
+        try{
+
+            const result = await StudentService.listAll();
+
+            if(result != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Estudantes encontrados com sucesso!",
+                    result: result,
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: "Estudantes não encontrados"
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
+
+    static list = async (req: any, res: any) => {
+        try {
+
+            const result = await StudentService.list(req.body);
+
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Estudante encontrado com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
 }
 
 export default StudentController;
