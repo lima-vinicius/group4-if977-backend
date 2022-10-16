@@ -1,6 +1,7 @@
 import swaggerUi from "swagger-ui-express"
 import routeUniversity from './routes/university';
 import routeStudent from './routes/users';
+import routeKnowledge from './routes/knowledge';
 import SwaggerFile from "../swagger.json"
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -20,6 +21,7 @@ app.use(bodyParser.json())
 
 app.use('/', routeUniversity);
 app.use('/student', routeStudent);
+app.use('/knowledge', routeKnowledge);
 
 
 app.use(
