@@ -23,12 +23,10 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use('/', routeUniversity);
+app.use('/university', routeUniversity);
 app.use('/student', routeStudent);
 app.use('/knowledge', routeKnowledge);
-
 app.use('/subject', routeSubject);
-
 app.use('/card', routeCard);
 
 app.use(
