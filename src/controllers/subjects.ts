@@ -43,7 +43,6 @@ class SubjectController {
              else{
                 res.status(404).json({
                     message: result,
-                    message: "Assuntos não encontrados"
                 })
             }
         }
@@ -68,7 +67,6 @@ class SubjectController {
              else{
                 res.status(404).json({
                     message: result,
-                    message: "Assuntos não encontrados"
                 })
             }
         }
@@ -93,7 +91,6 @@ class SubjectController {
             else{
                 res.status(404).json({
                     message: result,
-                    message: "Assuntos não encontrados"
                 })
             }
         }

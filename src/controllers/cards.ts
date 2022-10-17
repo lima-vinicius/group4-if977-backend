@@ -41,7 +41,6 @@ class CardController {
              else{
                     res.status(404).json({
                         message: result,
-                        message: "Cards não encontrados"
 
                     })
                 }
@@ -67,7 +66,6 @@ class CardController {
              else{
                     res.status(404).json({
                         message: result,
-                        message: "Cards não encontrados"
 
                     })
                 }
@@ -92,7 +90,6 @@ class CardController {
             else{
                 res.status(404).json({
                     message: result,
-                    message: "Cards não encontrados"
 
 
                 })

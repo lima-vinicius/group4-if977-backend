@@ -28,7 +28,7 @@ class StudentService {
 
                 const accessToken = await jwt.default.signAccessToken(student)
 
-                return {data, accessToken }
+                return { data, accessToken }
 
             }
             else if (find != undefined) {
@@ -42,93 +42,95 @@ class StudentService {
 
     static login = async (data: any) => {
 
-        try{
-            const {email, password} = data;
+        try {
+            const { email, password } = data;
 
-        const student = await prisma.studentUser.findUnique({
-            where:{
-                email
+            const student = await prisma.studentUser.findUnique({
+                where: {
+                    email
+                }
+            });
+
+            if (!student) {
+                throw Object.assign(new Error('Estudante não encontrado'), { status: 404 })
             }
-        });
+            const checkPassword = bcrypt.compareSync(password, student.password)
+            if (!checkPassword) throw Object.assign(new Error('Email ou senha inválido'), { status: 401 })
+            delete student.password
+            const accessToken = await jwt.default.signAccessToken(student)
 
-        if(!student){
-            throw Object.assign(new Error('Estudante não encontrado'), { status: 404})
+            return { accessToken }
         }
-        const checkPassword = bcrypt.compareSync(password, student.password)
-        if(!checkPassword) throw Object.assign(new Error('Email ou senha inválido'), { status: 401 })
-        delete student.password
-        const accessToken = await jwt.default.signAccessToken(student)
-
-        return {accessToken}
-        }
-        catch(e){
+        catch (e) {
             return e
-        }     
+        }
     };
 
     static listAll = async () => {
-        try{
+        try {
 
             const students = await prisma.studentUser.findMany();
 
-            if(!students) throw Object.assign(new Error('Estudantes não encontrados'), { status: 404});
+            if (!students) throw Object.assign(new Error('Estudantes não encontrados'), { status: 404 });
 
             return students;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
 
-    static list = async(data: any) => {
+    static list = async (data: any) => {
 
-        try{
+        try {
 
-            const {id} = data;
+            const { id } = data;
             const student = await prisma.studentUser.findUnique({
-                where:{
+                where: {
                     id
                 }
             });
 
-            if(!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404});
+            if (!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404 });
 
             return student;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
 
 
-    static delete = async(data: any) => {
-    
-      try{
+    static delete = async (data: any) => {
 
-            const {id} = data;
+        try {
+
+            const { id } = data;
 
             const student = await prisma.studentUser.delete({
-                where:{
+                where: {
                     id: id,
                 }
             });
 
-            if(!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404});
-            
-            
+            if (!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404 });
+
+
             return student;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
-            
-    static update = async(data: any) => {
 
-        try{
+    static update = async (data: any) => {
+
+        try {
+
+            const { id } = data;
 
             const student = await prisma.studentUser.update({
-                where:{
+                where: {
                     id: id,
                 },
                 data: {
@@ -139,11 +141,11 @@ class StudentService {
                 }
             });
 
-            if(!student) throw Object.assign(new Error('Estudante não encontrada'), { status: 404});
+            if (!student) throw Object.assign(new Error('Estudante não encontrada'), { status: 404 });
 
             return student;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };

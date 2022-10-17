@@ -2,9 +2,7 @@ import bcrypt from 'bcryptjs';
 import * as jwt from '../utils/jwt';
 
 import { PrismaClient } from '@prisma/client';
-import createHttpError from 'http-errors';
-import { error } from 'console';
-import { NotFoundError } from '@prisma/client/runtime';
+
 const prisma = new PrismaClient();
 
 require('dotenv').config();
@@ -44,90 +42,92 @@ class UniversityService {
 
     static login = async (data: any) => {
 
-        try{
-            const {email, password} = data;
+        try {
+            const { email, password } = data;
 
-        const user = await prisma.universityUser.findUnique({
-            where:{
-                email
+            const user = await prisma.universityUser.findUnique({
+                where: {
+                    email
+                }
+            });
+
+            if (!user) {
+                throw Object.assign(new Error('Usuário não encontrado'), { status: 404 })
             }
-        });
+            const checkPassword = bcrypt.compareSync(password, user.password)
+            if (!checkPassword) throw Object.assign(new Error('Email ou senha inválido'), { status: 401 })
+            delete user.password
+            const accessToken = await jwt.default.signAccessToken(user)
 
-        if(!user){
-            throw Object.assign(new Error('Usuário não encontrado'), { status: 404})
+            return { accessToken }
         }
-        const checkPassword = bcrypt.compareSync(password, user.password)
-        if(!checkPassword) throw Object.assign(new Error('Email ou senha inválido'), { status: 401 })
-        delete user.password
-        const accessToken = await jwt.default.signAccessToken(user)
-
-        return {accessToken}
-        }
-        catch(e){
+        catch (e) {
             return e
-        }     
+        }
     };
 
     static listAll = async () => {
-        try{
+        try {
 
             const universitys = await prisma.universityUser.findMany();
 
-            if(!universitys) throw Object.assign(new Error('Universidades não encontradas'), { status: 404});
+            if (!universitys) throw Object.assign(new Error('Universidades não encontradas'), { status: 404 });
 
             return universitys;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
 
-    static list = async(data: any) => {
+    static list = async (data: any) => {
 
-        try{
+        try {
 
-            const {id} = data;
+            const { id } = data;
             const university = await prisma.universityUser.findUnique({
-                where:{
+                where: {
                     id
                 }
             });
 
-            if(!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+            if (!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404 });
 
             return university;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
 
-    static delete = async(data: any) => {
-    
-        try{
+    static delete = async (data: any) => {
 
-              const {id} = data;
-              const student = await prisma.universityUser.delete({
-                  where:{
-                      id: id,
-                  }
-              });
+        try {
 
-                if(!student) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+            const { id } = data;
+            const student = await prisma.universityUser.delete({
+                where: {
+                    id: id,
+                }
+            });
 
-                return student;
-             }
-        catch(e){
+            if (!student) throw Object.assign(new Error('Universidade não encontrada'), { status: 404 });
+
+            return student;
+        }
+        catch (e) {
             return e.message;
         }
     };
 
-    static update = async(data: any) => {
+    static update = async (data: any) => {
 
-        try{
-        
+        try {
+
+            const { id } = data;
+
             const university = await prisma.universityUser.update({
-                where:{
+                where: {
                     id: id,
                 },
                 data: {
@@ -138,11 +138,11 @@ class UniversityService {
                 }
             });
 
-            if(!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+            if (!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404 });
 
             return university;
         }
-        catch(e){
+        catch (e) {
             return e.message;
         }
     };
