@@ -33,7 +33,23 @@ class SubjectService {
         catch (e) {
             return e
         }
-    }
+    };
+
+    static listAll = async () => {
+        try{
+
+            const subjects = await prisma.subject.findMany();
+
+            if(!subjects) throw Object.assign(new Error('Assuntos não encontrados'), { status: 404});
+
+            return subjects;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
+
 }
 
 export default SubjectService;
