@@ -103,19 +103,44 @@ class UniversityService {
     };
 
     static delete = async(data: any) => {
-
+    
         try{
 
-            const {id} = data;
-            const student = await prisma.universityUser.delete({
+              const {id} = data;
+              const student = await prisma.universityUser.delete({
+                  where:{
+                      id: id,
+                  }
+              });
+
+                if(!student) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+
+                return student;
+             }
+        catch(e){
+            return e.message;
+        }
+    };
+
+    static update = async(data: any) => {
+
+        try{
+        
+            const university = await prisma.universityUser.update({
                 where:{
                     id: id,
+                },
+                data: {
+                    name: data.name,
+                    address: data.address,
+                    city: data.city,
+                    country: data.country,
                 }
             });
 
-            if(!student) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+            if(!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
 
-            return student;
+            return university;
         }
         catch(e){
             return e.message;

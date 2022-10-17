@@ -101,11 +101,35 @@ class UniversityController {
         try {
 
             const result = await universityService.delete(req.body);
+            
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+
+                    message: "Universidade deletada com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
+    
+    static update = async (req: any, res: any) => {
+        try {
+
+            const result = await universityService.update(req.body);
 
             if(result.id != null){
                 res.status(200).json({
                     status: true,
-                    message: "Universidade deletada com sucesso!",
+                    message: "Universidade atualizada com sucesso!",
                     result: result
                 })
             }

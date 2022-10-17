@@ -100,11 +100,13 @@ class StudentService {
         }
     };
 
-    static delete = async(data: any) => {
 
-        try{
+    static delete = async(data: any) => {
+    
+      try{
 
             const {id} = data;
+
             const student = await prisma.studentUser.delete({
                 where:{
                     id: id,
@@ -112,6 +114,32 @@ class StudentService {
             });
 
             if(!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404});
+            
+            
+            return student;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+            
+    static update = async(data: any) => {
+
+        try{
+
+            const student = await prisma.studentUser.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    name: data.name,
+                    address: data.address,
+                    city: data.city,
+                    country: data.country,
+                }
+            });
+
+            if(!student) throw Object.assign(new Error('Estudante não encontrada'), { status: 404});
 
             return student;
         }

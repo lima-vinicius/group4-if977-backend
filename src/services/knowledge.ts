@@ -49,6 +49,65 @@ class KnowledgeService {
             if(!student) throw Object.assign(new Error('Área do conhecimento não encontrada'), { status: 404});
 
             return student;
+            
+            }
+        catch(e){
+            return e.message;
+        }
+    };
+            
+    static update = async(data: any) => {
+
+        try{
+
+            const {id, name} = data;
+            const knowledge = await prisma.knowledge.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    name: name,
+                }
+            });
+
+            if(!knowledge) throw Object.assign(new Error('Área do conhecimento não encontrada'), { status: 404});
+            
+            
+            return knowledge;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
+    static listAll = async () => {
+        try{
+
+            const knowledges = await prisma.knowledge.findMany();
+
+            if(!knowledges) throw Object.assign(new Error('Universidades não encontradas'), { status: 404});
+
+            return knowledges;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
+    static list = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const knowledge = await prisma.knowledge.findUnique({
+                where:{
+                    id
+                }
+            });
+
+            if(!knowledge) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+
+            return knowledge;
         }
         catch(e){
             return e.message;

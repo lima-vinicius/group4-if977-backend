@@ -30,17 +30,71 @@ class CardController {
         try {
 
             const result = await CardService.delete(req.body);
+            
+              if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Card deletado com sucesso!",
+                    result: result                
+                })
+            }
+             else{
+                    res.status(404).json({
+                        message: result,
+                        message: "Cards não encontrados"
+
+                    })
+                }
+            }
+            catch(e){
+                return (e.statusCode, e.message);
+            }
+     };       
+    
+    static update = async (req: any, res: any) => {
+        try {
+
+            const result = await CardService.update(req.body);
 
             if(result.id != null){
                 res.status(200).json({
                     status: true,
-                    message: "Card deletado com sucesso!",
+                    message: "Card atualizado com sucesso!",
                     result: result
+                
+                })
+            }
+             else{
+                    res.status(404).json({
+                        message: result,
+                        message: "Cards não encontrados"
+
+                    })
+                }
+            }
+            catch(e){
+                return (e.statusCode, e.message);
+            }
+    };
+                    
+    static listAll = async (req: any, res:any) => {
+        try{
+
+            const result = await CardService.listAll();
+
+            if(result != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Cards encontrados com sucesso!",
+                    result: result,
                 })
             }
             else{
                 res.status(404).json({
                     message: result,
+                    message: "Cards não encontrados"
+
+
                 })
             }
         }
