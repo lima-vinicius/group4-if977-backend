@@ -33,7 +33,21 @@ class CardService {
         catch (e) {
             return e
         }
-    }
+    };
+
+    static listAll = async () => {
+        try{
+
+            const cards = await prisma.card.findMany();
+
+            if(!cards) throw Object.assign(new Error('Cards não encontrados'), { status: 404});
+
+            return cards;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
 }
 
 export default CardService;
