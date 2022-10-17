@@ -26,6 +26,32 @@ class SubjectController {
         }
     };
 
+
+    static delete = async (req: any, res: any) => {
+        try {
+
+            const result = await SubjectService.delete(req.body);
+            
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Assunto da Área do conhecimento deletada com sucesso!",
+                    result: result
+                    
+                   })
+             }
+             else{
+                res.status(404).json({
+                    message: result,
+                    message: "Assuntos não encontrados"
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
+    
     static update = async (req: any, res: any) => {
         try {
 
@@ -36,6 +62,8 @@ class SubjectController {
                     status: true,
                     message: "Assunto da Área do conhecimento atualizado com sucesso!",
                     result: result
+                    
+                 })   
              }
              else{
                 res.status(404).json({
