@@ -1,11 +1,15 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
+import auth from '../middlewares/auth';
 import university from '../controllers/university';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send("Let's go everybody this is The SOFTWARE");
-});
 
-router.post('/register', university.register);
+router.post('university/register', university.register);
+router.post('university/login-university', university.login);
+router.get('university/list-all', auth, university.listAll);
+router.post('university/list-by-id', auth, university.list);
+router.delete('/delete-by-id', auth, university.delete);
+router.put('/update-by-id', university.update);
+
+
 export default router;
