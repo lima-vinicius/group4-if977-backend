@@ -25,7 +25,33 @@ class CardController {
             return (e.statusCode, e.message)
         }
     };
+    
+    static update = async (req: any, res: any) => {
+        try {
 
+            const result = await CardService.update(req.body);
+
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Card atualizado com sucesso!",
+                    result: result
+                
+                })
+            }
+             else{
+                    res.status(404).json({
+                        message: result,
+                        message: "Cards não encontrados"
+
+                    })
+                }
+            }
+            catch(e){
+                return (e.statusCode, e.message);
+            }
+    };
+                    
     static listAll = async (req: any, res:any) => {
         try{
 
@@ -40,7 +66,9 @@ class CardController {
             }
             else{
                 res.status(404).json({
+                    message: result,
                     message: "Cards não encontrados"
+
                 })
             }
         }
@@ -48,7 +76,6 @@ class CardController {
             return (e.statusCode, e.message);
         }
     };
-
 }
 
 export default CardController;

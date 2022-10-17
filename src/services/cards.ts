@@ -35,6 +35,33 @@ class CardService {
         }
     };
 
+    static update = async(data: any) => {
+
+        try{
+
+            const {id, title, question, answer} = data;
+            const card = await prisma.card.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    title: title,
+                    question: question,
+                    answer: answer,
+
+                }
+            });
+
+            if(!card) throw Object.assign(new Error('Card não encontrada'), { status: 404});
+
+            return card;
+         
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
     static listAll = async () => {
         try{
 

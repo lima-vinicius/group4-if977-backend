@@ -26,6 +26,28 @@ class KnowledgeController {
         }
     };
 
+    static update = async (req: any, res: any) => {
+        try {
+
+            const result = await KnowledgeService.update(req.body);
+            
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Área do conhecimento atualizada com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
     static listAll = async (req: any, res:any) => {
         try{
 

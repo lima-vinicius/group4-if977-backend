@@ -35,6 +35,30 @@ class KnowledgeService {
         }
     };
 
+    static update = async(data: any) => {
+
+        try{
+
+            const {id, name} = data;
+            const knowledge = await prisma.knowledge.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    name: name,
+                }
+            });
+
+            if(!knowledge) throw Object.assign(new Error('Área do conhecimento não encontrada'), { status: 404});
+            
+            
+            return knowledge;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
     static listAll = async () => {
         try{
 
