@@ -96,6 +96,29 @@ class StudentController {
             return (e.statusCode, e.message);
         }
     };
+
+    static update = async (req: any, res: any) => {
+        try {
+
+            const result = await StudentService.update(req.body);
+
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Usuário atualizado com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
 }
 
 export default StudentController;

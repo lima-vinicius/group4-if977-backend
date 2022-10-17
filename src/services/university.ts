@@ -102,6 +102,32 @@ class UniversityService {
         }
     };
 
+    static update = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const university = await prisma.universityUser.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    name: data.name,
+                    address: data.address,
+                    city: data.city,
+                    country: data.country,
+                }
+            });
+
+            if(!university) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+
+            return university;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
 }
 
 

@@ -33,7 +33,30 @@ class SubjectService {
         catch (e) {
             return e
         }
-    }
+    };
+
+    static update = async(data: any) => {
+
+        try{
+
+            const {id, name} = data;
+            const subject = await prisma.subject.update({
+                where:{
+                    id: id,
+                },
+                data: {
+                    name: name,
+                }
+            });
+
+            if(!subject) throw Object.assign(new Error('Assunto da Área do conhecimento não encontrada'), { status: 404});
+
+            return subject;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
 }
 
 export default SubjectService;
