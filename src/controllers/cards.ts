@@ -24,7 +24,31 @@ class CardController {
         catch (e) {
             return (e.statusCode, e.message)
         }
-    }
+    };
+
+    static listAll = async (req: any, res:any) => {
+        try{
+
+            const result = await CardService.listAll();
+
+            if(result != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Cards encontrados com sucesso!",
+                    result: result,
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: "Cards não encontrados"
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
+
 }
 
 export default CardController;
