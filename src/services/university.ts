@@ -102,6 +102,26 @@ class UniversityService {
         }
     };
 
+    static delete = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const student = await prisma.universityUser.delete({
+                where:{
+                    id: id,
+                }
+            });
+
+            if(!student) throw Object.assign(new Error('Universidade não encontrada'), { status: 404});
+
+            return student;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
+
 }
 
 

@@ -99,6 +99,26 @@ class StudentService {
             return e.message;
         }
     };
+
+    static delete = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const student = await prisma.studentUser.delete({
+                where:{
+                    id: id,
+                }
+            });
+
+            if(!student) throw Object.assign(new Error('Estudante não encontrado'), { status: 404});
+
+            return student;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
 }
 
 

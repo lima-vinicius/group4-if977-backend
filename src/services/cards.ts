@@ -33,7 +33,27 @@ class CardService {
         catch (e) {
             return e
         }
-    }
+    };
+
+    static delete = async(data: any) => {
+
+        try{
+
+            const {id} = data;
+            const student = await prisma.card.delete({
+                where:{
+                    id: id,
+                }
+            });
+
+            if(!student) throw Object.assign(new Error('Card não encontrado'), { status: 404});
+
+            return student;
+        }
+        catch(e){
+            return e.message;
+        }
+    };
 }
 
 export default CardService;

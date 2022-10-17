@@ -96,6 +96,29 @@ class StudentController {
             return (e.statusCode, e.message);
         }
     };
+
+    static delete = async (req: any, res: any) => {
+        try {
+
+            const result = await StudentService.delete(req.body);
+
+            if(result.id != null){
+                res.status(200).json({
+                    status: true,
+                    message: "Estudante deletado com sucesso!",
+                    result: result
+                })
+            }
+            else{
+                res.status(404).json({
+                    message: result,
+                })
+            }
+        }
+        catch(e){
+            return (e.statusCode, e.message);
+        }
+    };
 }
 
 export default StudentController;
